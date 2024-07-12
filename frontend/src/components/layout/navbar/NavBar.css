@@ -64,3 +64,23 @@
     opacity: 1;
     text-decoration: underline;
 }
+
+@media screen and (min-width: 900px) {
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+    } 
+
+    .burguer-space .burguer-container {
+        display: none;
+    }
+
+    .navbar ul {
+        display: block;
+    }
+
+    .navbar ul li {
+        display: inline-block;
+        padding: 22px;
+    }
+}

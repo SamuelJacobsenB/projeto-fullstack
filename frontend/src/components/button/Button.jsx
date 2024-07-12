@@ -1,9 +1,11 @@
 import React from 'react';
 import './Button.css';
 //----------------------------------------------------------
-const Button = () => {
+const Button = (props) => {
   return (
-    <div>Button</div>
+    <button className='btn' type={props.type}>
+      {props.children}
+    </button>
   );
 };
 //----------------------------------------------------------

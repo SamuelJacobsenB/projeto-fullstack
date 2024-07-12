@@ -30,13 +30,13 @@ const NavBar = () => {
           <Link to={'/'} className='nav-link'>Home</Link>
         </li>
         <li>
-          <Link to={'/'} className='nav-link'>Registrar</Link>
+          <Link to={'/register'} className='nav-link'>Registrar</Link>
         </li>
         <li>
-          <Link to={'/'} className='nav-link'>Entrar</Link>
+          <Link to={'/login'} className='nav-link'>Entrar</Link>
         </li>
         <li>
-          <Link to={'/'} className='nav-link'>Acesse</Link>
+          <Link to={'/restrictedroute'} className='nav-link'>Acesse</Link>
         </li>
       </ul>
     </nav>
