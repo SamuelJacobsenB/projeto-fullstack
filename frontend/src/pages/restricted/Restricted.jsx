@@ -1,8 +1,14 @@
 import React from 'react'
 //----------------------------------------------------------
+import Button from '../../components/button/Button';
+//----------------------------------------------------------
+import './Restricted.css';
+//----------------------------------------------------------
 const Restricted = () => {
   return (
-    <div>Restricted</div>
+    <div className='restricted'>
+      <h1>Rota restrita</h1>
+    </div>
   );
 };
 //----------------------------------------------------------
