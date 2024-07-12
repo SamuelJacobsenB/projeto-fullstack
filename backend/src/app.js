@@ -23,6 +23,9 @@ app.use((req,res,next)=>{
     next();
 });
 //----------------------------------------------------------
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended: false}));
+//----------------------------------------------------------
 const cors = require('cors');
 const options = {
     methods: 'GET, POST, PUT, DELETE',
