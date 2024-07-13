@@ -3,20 +3,37 @@ import { useState, useEffect } from 'react';
 //----------------------------------------------------------
 import Button from '../../components/button/Button';
 //----------------------------------------------------------
+import usersFetch from '../../services/config';
+//----------------------------------------------------------
 import './Register.css';
 //----------------------------------------------------------
 const Register = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const handleNewUser = async(evt)=>{
+    evt.preventDefault();
+    const user = {
+      name: name,
+      email: email,
+      password: password
+    };
+
+    setName('');
+    setEmail('')
+    setPassword('');
+
+    const response = await usersFetch.post('/new',user);
+    return response.data;
+  };
 
   return (
     <div className='register'>
 
       <h2>Regitre-se aqui:</h2>
 
-      <form action="" method='post'>
+      <form onSubmit={handleNewUser}>
 
         <div className="form-control">
           <label htmlFor="name">Nome:</label>
@@ -33,7 +50,7 @@ const Register = () => {
             <input type="password" name="password" id="password" placeholder='Digite sua senha' minLength={'8'} maxLength={'15'} value={password} onChange={(e)=>setPassword(e.target.value)} required/>
         </div>
 
-        <Button type='Submit'>Registrar usuário</Button>
+        <Button type={'Submit'}>Registrar usuário</Button>
 
       </form>
     </div>
