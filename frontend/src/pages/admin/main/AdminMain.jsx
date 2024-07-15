@@ -40,12 +40,12 @@ const AdminMain = () => {
         <h1>Bem-vindo administrador</h1>
         <div className="button">
         <Button>
-          <Link to={'/admin/create'} className='btn-link'>Registre-se aqui</Link>
+          <Link to={'/admin/create'} className='btn-link'>Crie um projeto</Link>
         </Button>
       </div>
       <div className="button">
         <Button>
-          <Link to={'/admin/modify'} className='btn-link'>Entre aqui</Link>
+          <Link to={'/admin/modify'} className='btn-link'>Gerencie seus projetos</Link>
         </Button>
       </div>
     </div>

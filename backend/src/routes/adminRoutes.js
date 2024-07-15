@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
 //----------------------------------------------------------
+const mongoose = require('mongoose');
+//----------------------------------------------------------
+require('../models/Project');
+const Project = mongoose.model('projects');
+//----------------------------------------------------------
 router.post('/verify', (req, res)=>{
     
 });
@@ -14,39 +19,37 @@ router.post('/projets', async(req, res)=>{
         erros.push({message: 'Nome inválido'});
     };
 
-    if(!req.body.email || req.body.email == '' || req.body.email == undefined || req.body.email == null){
-        erros.push({message: 'Email inválido'});
+    if(!req.body.content || req.body.content == '' || req.body.content == undefined || req.body.content == null){
+        erros.push({message: 'Conteúdo inválido'});
     };
 
-    if(!req.body.password || req.body.password == '' || req.body.password == undefined || req.body.password == null){
-        erros.push({message: 'Senha inválida'});
+    if(!req.body.description || req.body.description == '' || req.body.description == undefined || req.body.description == null){
+        erros.push({message: 'Descrição inválida'});
     };
 
-    const ifUser = await User.findOne({email: req.body.email});
+    if(!req.body.technologies || req.body.technologies == '' || req.body.technologies == undefined || req.body.technologies == null){
+        erros.push({message: 'Descreva as tecnologias'});
+    };
 
-    if(ifUser) {
-        erros.push('Email do usuário já registrado');
+    const ifProject = await Project.findOne({name: req.body.name});
+
+    if(ifProject) {
+        erros.push('Esta projeto já está registrado');
     };
 
     if(erros.length > 0){
         console.log(erros);
     } else {
-        const salt = bcrypt.genSaltSync(10);
-        const hashPassword = await bcrypt.hash(req.body.password, salt);
-    
-        const user = {
-            _id: this._id,
+        const project = {
             name: req.body.name,
-            email: req.body.email,
-            password: hashPassword
+            content: req.body.content,
+            description: req.body.description,
+            technologies: req.body.technologies
         };
 
-        await new User(user).save()
+        await new Project(project).save()
             .then((user)=>{
-                const token = jwt.sign({user: user._id}, JWT_SECRET, {expiresIn: 7200});
-                res.json(token);
-
-                console.log('Usuário salvo com sucesso');
+                console.log('Projeto salvo com sucesso');
             })
             .catch((err)=>{
                 console.log(err);
