@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 //----------------------------------------------------------
 import { useNavigate } from 'react-router-dom';
 //----------------------------------------------------------
+import { useCookies } from 'react-cookie';
+//----------------------------------------------------------
 import Button from '../../components/button/Button';
 //----------------------------------------------------------
 import usersFetch from '../../services/config';
@@ -16,24 +18,24 @@ const Register = () => {
 
   const navigate = useNavigate();
 
+  const [cookie, setCookie] = useCookies(['token']);
+
   //Envio do usuário:
   const handleNewUser = async(evt)=>{
     try {
       evt.preventDefault();
       const user = {
+        name: name,
         email: email,
         password: password
       };
   
-      const response = await usersFetch.post('/login',user);
+      const response = await usersFetch.post('/new',user);
       const token = response.data;
 
       setCookie('token', token);
 
-      navigate('/restrictedroute');
-
-
-
+      navigate('/restrictedroute', {state: {message: 'Usuário logado com sucesso'}});
     } catch (error) {
       console.log(error)
     };
@@ -41,9 +43,6 @@ const Register = () => {
     setEmail('');
     setPassword('');
   };
-
-  //Criando Token
-
 
   return (
     <div className='register'>

@@ -6,9 +6,13 @@ module.exports = routeVerify = (req,res,next)=>{
 
     try {
         const user = jwt.verify(token, JWT_SECRET);
-        req.user = user;
-        console.log('Verificado com sucesso');
-        next();
+        if(user.userType == 1){
+            req.user = user;
+            console.log('Verificado com sucesso');
+            next();
+        } else {
+            res.json({message: 'Área restrita'});
+        };
     } catch (error) {
         res.json(error);
     };

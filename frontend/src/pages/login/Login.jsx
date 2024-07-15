@@ -16,9 +16,9 @@ const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-  const [cookie, setCookie] = useCookies();
-
   const navigate = useNavigate();
+
+  const [cookie, setCookie] = useCookies(['token']);
 
   const handleLoginUser = async(evt)=>{
     try {
@@ -33,17 +33,13 @@ const Login = () => {
 
       setCookie('token', token);
 
-      navigate('/restrictedroute');
-
-
-
+      navigate('/restrictedroute', {state: {message: 'Usuário logado com sucesso'}});
     } catch (error) {
       console.log(error)
     };
 
     setEmail('');
     setPassword('');
-
   };
   
   return (

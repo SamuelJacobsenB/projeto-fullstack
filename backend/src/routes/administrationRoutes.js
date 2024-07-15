@@ -61,7 +61,7 @@ router.post('/new', async(req,res)=>{
         await new User(user).save()
             .then((user)=>{
                 const token = jwt.sign({user: user._id}, JWT_SECRET, {expiresIn: 7200});
-                res.cookie('token', token, {httpOnly: true});
+                res.json(token);
 
                 console.log('Usuário salvo com sucesso');
             })
@@ -96,8 +96,13 @@ router.post('/login', async(req,res)=>{
         const verifyPassword = await bcrypt.compare(req.body.password, user.password);
 
         if(verifyPassword == true){
-            const token = jwt.sign({user: user._id}, JWT_SECRET, {expiresIn: 7200});
-            res.json(token);
+            if(user.userType == 1){
+                const token = jwt.sign({user: user._id, userType: user.userType}, JWT_SECRET, {expiresIn: 7200});
+                res.json(token);
+            } else {
+                const token = jwt.sign({user: user._id}, JWT_SECRET, {expiresIn: 7200});
+                res.json(token);
+            };
 
             console.log('Usuário logado com sucesso');
         } else {

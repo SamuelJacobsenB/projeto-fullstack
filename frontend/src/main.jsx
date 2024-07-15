@@ -6,6 +6,9 @@ import Home from './pages/home/Home.jsx';
 import Register from './pages/register/Register.jsx';
 import Login from './pages/login/Login.jsx';
 import Restricted from './pages/restricted/Restricted.jsx';
+import AdminMain from './pages/admin/main/AdminMain.jsx';
+import AdminCreate from './pages/admin/create/AdminCreate.jsx';
+import AdminModify from './pages/admin/modify/AdminModify.jsx';
 //----------------------------------------------------------
 import './css/globalStyles.css';
 //----------------------------------------------------------
@@ -30,6 +33,18 @@ const router = createBrowserRouter([
       {
         path: '/restrictedroute',
         element: <Restricted/>
+      },
+      {
+        path: '/admin',
+        element: <AdminMain/>
+      },
+      {
+        path: '/admin/create',
+        element: <AdminCreate/>
+      },
+      {
+        path: '/admin/modify',
+        element: <AdminModify/>
       }
     ]
   }
