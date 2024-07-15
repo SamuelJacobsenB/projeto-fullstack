@@ -1,6 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 //----------------------------------------------------------
+import { useNavigate } from 'react-router-dom';
+//----------------------------------------------------------
 import Button from '../../components/button/Button';
 //----------------------------------------------------------
 import usersFetch from '../../services/config';
@@ -12,21 +14,36 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const navigate = useNavigate();
+
+  //Envio do usuário:
   const handleNewUser = async(evt)=>{
-    evt.preventDefault();
-    const user = {
-      name: name,
-      email: email,
-      password: password
+    try {
+      evt.preventDefault();
+      const user = {
+        email: email,
+        password: password
+      };
+  
+      const response = await usersFetch.post('/login',user);
+      const token = response.data;
+
+      setCookie('token', token);
+
+      navigate('/restrictedroute');
+
+
+
+    } catch (error) {
+      console.log(error)
     };
 
-    setName('');
-    setEmail('')
+    setEmail('');
     setPassword('');
-
-    const response = await usersFetch.post('/new',user);
-    return response.data;
   };
+
+  //Criando Token
+
 
   return (
     <div className='register'>
