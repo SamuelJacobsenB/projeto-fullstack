@@ -9,6 +9,7 @@ import Restricted from './pages/restricted/Restricted.jsx';
 import AdminMain from './pages/admin/main/AdminMain.jsx';
 import AdminCreate from './pages/admin/create/AdminCreate.jsx';
 import AdminModify from './pages/admin/modify/AdminModify.jsx';
+import AdminFormModify from './pages/admin/formModify/AdminFormModify.jsx';
 //----------------------------------------------------------
 import './css/globalStyles.css';
 //----------------------------------------------------------
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
         path: '/admin/modify',
         element: <AdminModify/>
       },
+      {
+        path: '/admin/modify/:id',
+        element: <AdminFormModify/>
+      }
     ]
   }
 ]);

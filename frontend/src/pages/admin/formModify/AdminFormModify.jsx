@@ -11,54 +11,78 @@ import api from '../../../services/api';
 import Messages from '../../../components/layout/messages/Messages';
 import Button from '../../../components/button/Button';
 //----------------------------------------------------------
-import './AdminCreate.css';
+import './AdminFormModify.css';
 //----------------------------------------------------------
-const AdminCreate = () => {
+const AdminFormModify = () => {
 
     const location = useLocation();
     let message = '';
+    let id = '';
 
     if(location.state){
       message = location.state.message;
+      id = location.state.id;
     };
 
     const navigate = useNavigate();
+    //----------------------------------------------------------
 
         //Create new project ---------------------------------------------
-        const [name, setName] = useState(); 
-        const [content, setContent] = useState(); 
-        const [description, setDescription] = useState(); 
-        const [technologies, setTechnologies] = useState(); 
-    
-        const handleNewProject = async(evt)=>{
-          try {
-            evt.preventDefault();
-            const project = {
-              name: name,
-              content: content,
-              description: description,
-              technologies: technologies
-            };
+        const [name, setName] = useState(''); 
+        const [content, setContent] = useState(''); 
+        const [description, setDescription] = useState(''); 
+        const [technologies, setTechnologies] = useState(''); 
         
-            const response = await api.post('/admin/new',project);
+        
+              const handleEditProject = async(evt)=>{
+                try {
+                  evt.preventDefault();
+                  const project = {
+                    name: name,
+                    content: content,
+                    description: description,
+                    technologies: technologies
+                  };
+              
+                  const response = await api.post('/admin/new',project);
+    
+                  if(response.data.success_message){
+                    navigate('/admin', {state: {success_message: response.data.success_message}});
+                  } else {
+                    navigate('/admin/create', {state: {message: response.data.message}});
+                  };
+                } catch (error) {
+                  navigate('/admin/create', {state: {message: 'Erro ao tentar criar projeto'}});
+                };
+            
+                setName('');
+                setContent('');
+                setDescription('');
+                setTechnologies('');
+              };
 
-            if(response.data.success_message){
-              navigate('/admin', {state: {success_message: response.data.success_message}});
-            } else {
-              navigate('/admin/create', {state: {message: response.data.message}});
-            };
-          } catch (error) {
-            navigate('/admin/create', {state: {message: 'Erro ao tentar criar projeto'}});
-          };
-      
-          setName('');
-          setContent('');
-          setDescription('');
-          setTechnologies('');
-        };
+    //Get project-----------------------------------------------
+
+    const getProject = async()=>{
+      const response = await api.post('/admin/getproject', {id: id});
+
+      if(response.data.message){
+        navigate('/admin/modify', {state: {message: response.data.message}});
+      } else {
+        const project = response.data.project;
+
+        setName(project.name);
+        setContent(project.content);
+        setDescription(project.description);
+        setTechnologies(project.technologies);
+
+        console.log(project.project.name)
+      };
+    }; 
+
 
     //Verify cookies -------------------------------------------------
-    const [cookie, setCookie, removeCookie] = useCookies(['token']);
+    const [cookie, setCookie] = useCookies(['token']);
   
     const verifyToken = async()=>{
       try {
@@ -75,7 +99,10 @@ const AdminCreate = () => {
   
     useEffect(()=>{
       verifyToken();
+      getProject();
     }, []);
+
+
 
   return (
     <div className='admin-create'>
@@ -83,9 +110,9 @@ const AdminCreate = () => {
         <Messages type={'error'}>{message}</Messages>
       )}
 
-        <h1>Criar novo projeto:</h1>
+        <h1>Editar projeto:</h1>
 
-        <form onSubmit={handleNewProject}>
+        <form onSubmit={handleEditProject}>
 
         <div className="form-control">
           <label htmlFor="name">Nome:</label>
@@ -107,7 +134,7 @@ const AdminCreate = () => {
             <input type="text" name="technologies" id="technologies" placeholder='Digite as tecnologias que serão usadas' value={technologies} onChange={(e)=>setTechnologies(e.target.value)} required/>
         </div>
 
-        <Button type={'Submit'} className={'success'}>Criar projeto</Button>
+        <Button type={'Submit'} className={'success'}>Salvar alterações</Button>
 
       </form>
 
@@ -115,4 +142,4 @@ const AdminCreate = () => {
   );
 };
 //----------------------------------------------------------
-export default AdminCreate;
+export default AdminFormModify;

@@ -80,5 +80,16 @@ router.post('/delete', async(req, res)=>{
             console.log('Erro ao deletar projeto');
         });
 });
+
+router.post('/getproject', async(req, res)=>{
+    await Project.findOne({_id: req.body.id})
+        .then((project)=>{
+            res.json({project: project});
+            console.log('Projeto encontrado');
+        })
+        .catch((err)=>{
+            res.json({message: 'Erro ao buscar pelo projeto'});
+        });
+});
 //----------------------------------------------------------
 module.exports = router;

@@ -81,8 +81,10 @@ const AdminModify = () => {
   //----------------------------------------------------------
 
   //Editing the project --------------------------------------
-  const handleEdit = async()=>{
-    navigate('/admin/modify/edit')
+  const handleEdit = async(evt)=>{
+    evt.preventDefault();
+    const id = evt.target.firstChild.value;
+    navigate(`/admin/modify/${id}`, {state: {id: id}});
   };
   //----------------------------------------------------------
   
@@ -99,6 +101,7 @@ const AdminModify = () => {
         {
           projects.map((project)=>(
             <div className="project" key={project._id}>
+              
 
               <h3>{project.name}</h3>
 
@@ -109,7 +112,7 @@ const AdminModify = () => {
 
                 <div className="button-area">
 
-                  <form onSubmit={(el)=>handleDelete(el)}>
+                  <form onSubmit={(evt)=>handleDelete(evt)}>
                     <input type="hidden" name="id" value={project._id}/>
                     <div className="button">
                       <Button type={'Submit'} className={'danger btn-modify'}>
@@ -118,12 +121,14 @@ const AdminModify = () => {
                     </div>
                   </form>
 
-                  <div onClick={handleEdit}>
-                    <Button type={'button'} className={'edit btn-modify'} >
+
+                  <form onSubmit={(evt)=>handleEdit(evt)}>
+                    <input type="hidden" name="id" value={project._id}/>
+                    <Button type={'Submit'} className={'edit btn-modify'} onClick={(evt)=>handleEdit(evt)}>
                         <FaPen/>
                     </Button>
-                  </div>
-
+                  </form>
+            
                 </div>
 
               </div>
