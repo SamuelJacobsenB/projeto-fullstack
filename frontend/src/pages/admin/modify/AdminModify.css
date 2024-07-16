@@ -17,7 +17,7 @@
     padding: 20px;
 }
 
-.admin-modify .project-list {
+.project-list {
     display: flex;
     justify-content: center;
     flex-direction: column;

@@ -11,3 +11,11 @@ body,
 #root {
     background-color: rgb(23, 197, 255);
 }
+
+.link {
+    text-align: left;
+    font-size: 18px;
+    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.567);
+}

@@ -16,3 +16,78 @@
     font-size: 40px;
     padding: 20px;
 }
+
+.userProject-list {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    max-height: none;
+    
+}
+
+.userProject-list .project {
+    display: flex;
+    margin: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.472);
+    border-radius: 5px;
+}
+
+.userProject-list .project h3 {
+    font-size: 24px;
+    padding: 5px;
+}
+
+.userProject-list .project p {
+    font-size: 16px;
+    margin: 10px;
+}
+
+.project .info {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+.sp-informations {
+    width: 100%;
+    padding: 10px;
+}
+
+.more-informations {
+    background-color: rgba(0, 0, 0, 0.082);
+    font-size: 20px;
+    width: 80px;
+    min-height: 103px;
+    border-right: 1px solid rgba(0, 0, 0, 0.472);
+    border-radius: 5px 0px 0px 5px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.more-informations:hover {
+    background-color: rgba(0, 0, 0, 0.156);
+}
+
+.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    min-height: 103px;
+    height: 100%;
+}
+
+.more-informations .open-icon {
+    display: none;
+}
+
+.more {
+    display: none;
+}
+
+.more p {
+    display: block;
+    text-align: center;
+}

@@ -40,7 +40,7 @@ router.post('/new', async(req, res)=>{
     };
 
     if(erros.length > 0){
-        res.json({message: erros})
+        res.json({message: erros});
     } else {
         const project = {
             name: req.body.name,
@@ -90,6 +90,53 @@ router.post('/getproject', async(req, res)=>{
         .catch((err)=>{
             res.json({message: 'Erro ao buscar pelo projeto'});
         });
+});
+
+router.post('/edit', async(req, res)=>{
+    console.log('Dados do projeto recebidos');
+
+    let erros = [];
+
+    if(!req.body.name || req.body.name == '' || req.body.name == undefined || req.body.name == null){
+        erros.push({message: 'Nome inválido'});
+    };
+
+    if(!req.body.content || req.body.content == '' || req.body.content == undefined || req.body.content == null){
+        erros.push({message: 'Conteúdo inválido'});
+    };
+
+    if(!req.body.description || req.body.description == '' || req.body.description == undefined || req.body.description == null){
+        erros.push({message: 'Descrição inválida'});
+    };
+
+    if(!req.body.technologies || req.body.technologies == '' || req.body.technologies == undefined || req.body.technologies == null){
+        erros.push({message: 'Descreva as tecnologias'});
+    };
+
+    if(erros.length > 0){
+        res.json({message: erros});
+    } else {
+        await Project.findOne({name: req.body.name})
+            .then(async(project)=>{
+                project.name = req.body.name;
+                project.content = req.body.content;
+                project.description = req.body.description;
+                project.technologies = req.body.technologies;
+
+                await project.save()
+                    .then(()=>{
+                        res.json({success_message: 'Edição salva com sucesso'});
+                        console.log('Edição salva com sucesso');
+                    })
+                    .catch((err)=>{
+                        res.json({message: 'Erro interno ao salvar edição'});
+                        console.log(err);
+                    });
+            })
+            .catch((err)=>{
+                res.json({message: 'Erro ao salvar edição'});
+            });
+    };
 });
 //----------------------------------------------------------
 module.exports = router;

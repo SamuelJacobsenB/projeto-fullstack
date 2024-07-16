@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 //----------------------------------------------------------
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 //----------------------------------------------------------
@@ -83,6 +84,10 @@ const AdminCreate = () => {
         <Messages type={'error'}>{message}</Messages>
       )}
 
+        <p className='link'>
+          <Link to={'/admin'}>Voltar a página principal</Link>
+        </p>
+
         <h1>Criar novo projeto:</h1>
 
         <form onSubmit={handleNewProject}>
@@ -99,7 +104,7 @@ const AdminCreate = () => {
 
         <div className="form-control">
           <label htmlFor="description">Descrição:</label>
-            <input type="text" name="description" id="description" placeholder='Digite o conteúdo' value={description} onChange={(e)=>setDescription(e.target.value)} required/>
+            <input type="text" name="description" id="description" placeholder='Digite o conteúdo' value={description} onChange={(e)=>setDescription(e.target.value)} maxLength={'30'} required/>
         </div>
 
         <div className="form-control">

@@ -96,6 +96,11 @@ const AdminModify = () => {
       {success_message && (
         <Messages type={'success'}>{success_message}</Messages>
       )}
+
+      <p className='link'>
+        <Link to={'/admin'}>Voltar a página principal</Link>
+      </p>
+
       <h2>Veja todos os projetos listados abaixo:</h2>
       <div className="project-list">
         {

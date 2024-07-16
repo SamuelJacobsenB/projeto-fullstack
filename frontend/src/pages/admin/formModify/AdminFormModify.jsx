@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 //----------------------------------------------------------
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 //----------------------------------------------------------
@@ -44,15 +45,15 @@ const AdminFormModify = () => {
                     technologies: technologies
                   };
               
-                  const response = await api.post('/admin/new',project);
+                  const response = await api.post('/admin/edit',project);
     
                   if(response.data.success_message){
-                    navigate('/admin', {state: {success_message: response.data.success_message}});
+                    navigate('/admin/modify', {state: {success_message: response.data.success_message}});
                   } else {
-                    navigate('/admin/create', {state: {message: response.data.message}});
+                    navigate('/admin/modify', {state: {message: response.data.message}});
                   };
                 } catch (error) {
-                  navigate('/admin/create', {state: {message: 'Erro ao tentar criar projeto'}});
+                  navigate('/admin/modify', {state: {message: 'Erro ao tentar editar projeto'}});
                 };
             
                 setName('');
@@ -75,8 +76,6 @@ const AdminFormModify = () => {
         setContent(project.content);
         setDescription(project.description);
         setTechnologies(project.technologies);
-
-        console.log(project.project.name)
       };
     }; 
 
@@ -110,6 +109,10 @@ const AdminFormModify = () => {
         <Messages type={'error'}>{message}</Messages>
       )}
 
+        <p className='link'>
+          <Link to={'/admin/modify'}>Voltar a página de gerenciamento</Link>
+        </p>
+
         <h1>Editar projeto:</h1>
 
         <form onSubmit={handleEditProject}>
@@ -126,7 +129,7 @@ const AdminFormModify = () => {
 
         <div className="form-control">
           <label htmlFor="description">Descrição:</label>
-            <input type="text" name="description" id="description" placeholder='Digite o conteúdo' value={description} onChange={(e)=>setDescription(e.target.value)} required/>
+            <input type="text" name="description" id="description" placeholder='Digite o conteúdo' value={description} onChange={(e)=>setDescription(e.target.value)} maxLength={'30'} required/>
         </div>
 
         <div className="form-control">
