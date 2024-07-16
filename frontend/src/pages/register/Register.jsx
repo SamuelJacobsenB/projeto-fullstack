@@ -2,16 +2,26 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 //----------------------------------------------------------
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 //----------------------------------------------------------
 import { useCookies } from 'react-cookie';
 //----------------------------------------------------------
+import Messages from '../../components/layout/messages/Messages';
 import Button from '../../components/button/Button';
 //----------------------------------------------------------
-import usersFetch from '../../services/config';
+import api from '../../services/api';
 //----------------------------------------------------------
 import './Register.css';
 //----------------------------------------------------------
 const Register = () => {
+
+  const location = useLocation();
+  let message = '';
+
+  if(location.state){
+    message = location.state.message;
+  };
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,7 +30,7 @@ const Register = () => {
 
   const [cookie, setCookie] = useCookies(['token']);
 
-  //Envio do usuário:
+  //Create new User
   const handleNewUser = async(evt)=>{
     try {
       evt.preventDefault();
@@ -30,22 +40,34 @@ const Register = () => {
         password: password
       };
   
-      const response = await usersFetch.post('/new',user);
-      const token = response.data;
+      const response = await api.post('/new',user);
+      if(response.data.message){
 
-      setCookie('token', token);
+        navigate('/register', {state: {message: response.data.message}});
+        
+      } else {
 
-      navigate('/restrictedroute', {state: {message: 'Usuário logado com sucesso'}});
+        const token = response.data;
+
+        setCookie('token', token);
+  
+        navigate('/restrictedroute', {state: {message: 'Usuário logado com sucesso'}});
+
+      };
     } catch (error) {
-      console.log(error)
+      navigate('/register', {state: {message: 'Houve um erro interno'}});
     };
 
+    setName('');
     setEmail('');
     setPassword('');
   };
 
   return (
     <div className='register'>
+      {message && (
+        <Messages type={'error'}>{message}</Messages>
+      )}
 
       <h2>Regitre-se aqui:</h2>
 
@@ -66,7 +88,7 @@ const Register = () => {
             <input type="password" name="password" id="password" placeholder='Digite sua senha' minLength={'8'} maxLength={'15'} value={password} onChange={(e)=>setPassword(e.target.value)} required/>
         </div>
 
-        <Button type={'Submit'}>Registrar usuário</Button>
+        <Button type={'Submit'} className={'success'}>Registrar usuário</Button>
 
       </form>
     </div>

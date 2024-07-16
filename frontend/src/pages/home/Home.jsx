@@ -12,7 +12,6 @@ const Home = () => {
 
   const location = useLocation();
   let message = '';
-  console.log(location.state)
 
   if(location.state){
     message = location.state.message;
@@ -25,12 +24,12 @@ const Home = () => {
       )}
       <h1>Seja bem vindo</h1>
       <div className="button">
-        <Button>
+        <Button className={'success'}>
           <Link to={'/register'} className='btn-link'>Registre-se aqui</Link>
         </Button>
       </div>
       <div className="button">
-        <Button>
+        <Button className={'success'}>
           <Link to={'/login'} className='btn-link'>Entre aqui</Link>
         </Button>
       </div>

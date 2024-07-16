@@ -6,11 +6,13 @@ const mongoose = require('mongoose');
 require('../models/Project');
 const Project = mongoose.model('projects');
 //----------------------------------------------------------
-router.post('/verify', (req, res)=>{
-    
+const adminVerify = require('../config/adminVerify');
+//----------------------------------------------------------
+router.post('/verify', adminVerify, (req, res)=>{
+
 });
 
-router.post('/projets', async(req, res)=>{
+router.post('/new', async(req, res)=>{
     console.log('Dados do projeto recebidos');
 
     let erros = [];
@@ -34,11 +36,11 @@ router.post('/projets', async(req, res)=>{
     const ifProject = await Project.findOne({name: req.body.name});
 
     if(ifProject) {
-        erros.push('Esta projeto já está registrado');
+        erros.push('Este projeto já está registrado');
     };
 
     if(erros.length > 0){
-        console.log(erros);
+        res.json({message: erros})
     } else {
         const project = {
             name: req.body.name,
@@ -48,13 +50,35 @@ router.post('/projets', async(req, res)=>{
         };
 
         await new Project(project).save()
-            .then((user)=>{
-                console.log('Projeto salvo com sucesso');
+            .then(()=>{
+                res.json({success_message: 'Projeto salvo com sucesso'});
             })
             .catch((err)=>{
-                console.log(err);
+                res.json({message: 'Erro ao salvar projeto'});
             });
     };
+});
+
+router.get('/list', (req, res)=>{
+    Project.find()
+        .then((project)=>{
+            res.json(project);
+        })
+        .catch((err)=>{
+            res.json({message: 'Erro ao gerenciar projetos'});
+        });
+});
+
+router.post('/delete', async(req, res)=>{
+    await Project.deleteOne({_id: req.body.id})
+        .then(()=>{
+            res.json({success_message: 'Projeto deletado com sucesso'});
+            console.log('Projeto deletado com sucesso');
+        })
+        .catch((err)=>{
+            res.json({message: 'Erro ao deletar projeto'});
+            console.log('Erro ao deletar projeto');
+        });
 });
 //----------------------------------------------------------
 module.exports = router;

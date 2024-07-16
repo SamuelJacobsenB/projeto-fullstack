@@ -2,37 +2,74 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 //----------------------------------------------------------
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 //----------------------------------------------------------
 import { useCookies } from 'react-cookie';
 //----------------------------------------------------------
-import usersFetch from '../../../services/config';
-import projects from '../../../services/projects';
+import api from '../../../services/api';
 //----------------------------------------------------------
+import Messages from '../../../components/layout/messages/Messages';
 import Button from '../../../components/button/Button';
 //----------------------------------------------------------
 import './AdminCreate.css';
 //----------------------------------------------------------
 const AdminCreate = () => {
 
-    const [name, setName] = useState(); 
-    const [content, setContent] = useState(); 
-    const [description, setDescription] = useState(); 
-    const [technologies, setTechnologies] = useState(); 
+    const location = useLocation();
+    let message = '';
+
+    if(location.state){
+      message = location.state.message;
+    };
 
     const navigate = useNavigate();
 
+        //Create new project ---------------------------------------------
+        const [name, setName] = useState(); 
+        const [content, setContent] = useState(); 
+        const [description, setDescription] = useState(); 
+        const [technologies, setTechnologies] = useState(); 
+    
+        const handleNewProject = async(evt)=>{
+          try {
+            evt.preventDefault();
+            const project = {
+              name: name,
+              content: content,
+              description: description,
+              technologies: technologies
+            };
+        
+            const response = await api.post('/admin/new',project);
+
+            if(response.data.success_message){
+              navigate('/admin', {state: {success_message: response.data.success_message}});
+            } else {
+              navigate('/admin/create', {state: {message: response.data.message}});
+            };
+          } catch (error) {
+            navigate('/admin/create', {state: {message: 'Erro ao tentar criar projeto'}});
+          };
+      
+          setName('');
+          setContent('');
+          setDescription('');
+          setTechnologies('');
+        };
+
+    //Verify cookies -------------------------------------------------
     const [cookie, setCookie, removeCookie] = useCookies(['token']);
   
     const verifyToken = async()=>{
       try {
         const token = cookie.token;
         
-        const response = await usersFetch.post('/admin/verify', {token});
-        if(response.data){
-          navigate('/', {state: {message: 'Você não pode entrar nesta área'}});
+        const response = await api.post('/admin/verify', {token});
+        if(response.data.message){
+          navigate('/', {state: {message: response.data.message}});
         };
       } catch(err){
-        navigate('/', {state: {message: 'Você não pode entrar nesta área'}});
+        navigate('/', {state: {message: 'Erro ao tentar acessar esta área'}});
       };
     };
   
@@ -42,10 +79,15 @@ const AdminCreate = () => {
 
   return (
     <div className='admin-create'>
+      {message && (
+        <Messages type={'error'}>{message}</Messages>
+      )}
 
         <h1>Criar novo projeto:</h1>
 
-        <form>
+        <form onSubmit={handleNewProject}>
+
+        <input type="hidden" name="token" value={cookie.token}/>
 
         <div className="form-control">
           <label htmlFor="name">Nome:</label>
@@ -67,7 +109,7 @@ const AdminCreate = () => {
             <input type="text" name="technologies" id="technologies" placeholder='Digite as tecnologias que serão usadas' value={technologies} onChange={(e)=>setTechnologies(e.target.value)} required/>
         </div>
 
-        <Button type={'Submit'}>Criar projeto</Button>
+        <Button type={'Submit'} className={'success'}>Criar projeto</Button>
 
       </form>
 

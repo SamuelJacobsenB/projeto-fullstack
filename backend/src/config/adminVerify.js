@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 //------------------------------------------------
-module.exports = routeVerify = (req,res,next)=>{
+module.exports = adminVerify = (req,res,next)=>{
     const token = req.body.token;
     const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -8,12 +8,11 @@ module.exports = routeVerify = (req,res,next)=>{
         const user = jwt.verify(token, JWT_SECRET);
         if(user.userType == 1){
             req.user = user;
-            console.log('Verificado com sucesso');
             next();
         } else {
-            res.json({message: 'Área restrita'});
+            res.json({message: 'Você não pode entrar em uma área restrita'});
         };
     } catch (error) {
-        res.json(error);
+        res.json({message: 'Você deve estar logado'});
     };
 };

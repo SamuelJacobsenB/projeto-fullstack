@@ -1,22 +1,47 @@
 .btn {
     display: block;
-    background-color: rgb(89, 255, 47);
-    color: green;
     font-size: 18px;
     text-align: center;
     padding: 10px;
-    border: 1px solid rgba(0, 128, 0, 0.577);
     border-radius: 8px;
     cursor: pointer;
     transition: 0.4s;
 }
 
+.success {
+    background-color: rgb(89, 255, 47);
+    color: green;
+    border: 1px solid rgba(0, 128, 0, 0.577);
+}
+
+.success:hover {
+    background-color: rgb(51, 255, 0);
+    border-color: rgb(51, 255, 0);
+}
+
+.danger {
+    background-color: rgba(255, 47, 47, 0.621);
+    color: rgba(128, 0, 0, 0.854);
+    border: 1px solid rgba(128, 0, 0, 0.577);
+}
+
+.danger:hover {
+    background-color: rgba(255, 0, 0, 0.67);
+    border-color: rgb(255, 0, 0);
+}
+
+.edit {
+    background-color: rgba(47, 220, 255, 0.87);
+    color: rgb(0, 92, 128);
+    border: 1px solid rgba(0, 43, 128, 0.302);
+}
+
+.edit:hover {
+    background-color: rgb(0, 166, 255);
+    border-color: rgb(0, 166, 255);
+}
+
 .btn-link {
     color: green;
     text-decoration: none;
-}
-
-.btn:hover {
-    background-color: rgb(51, 255, 0);
-    border-color: rgb(51, 255, 0);
 }

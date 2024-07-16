@@ -29,7 +29,6 @@ app.use(bodyParser.urlencoded({extended: false}));
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 const routeVerify = require('./config/routeVerify');
-const adminVerify = require('./config/adminVerify');
 //----------------------------------------------------------
 const helmet = require('helmet');
 app.use(helmet());
@@ -49,8 +48,8 @@ mongoose.connect('mongodb://localhost/projeto_fullstack');
 const administrationRoutes = require('./routes/administrationRoutes');
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
-app.use('/',administrationRoutes);
+app.use('/', administrationRoutes);
 app.use('/user', routeVerify, userRoutes);
-app.use('/admin', adminVerify, adminRoutes);
+app.use('/admin', adminRoutes);
 //----------------------------------------------------------
 app.listen(PORT,()=>console.log(`Server is running on port: ${PORT}`));

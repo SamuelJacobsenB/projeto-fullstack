@@ -12,15 +12,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 require('../models/User');
 const User = mongoose.model('users');
 //----------------------------------------------------------
-router.get('/list',(req,res)=>{
-    User.find()
-        .then((el)=>{
-            res.json(el);
-        })
-        .catch((err)=>{
-            console.log(err);
-        });
-});
+
 
 router.post('/new', async(req,res)=>{
     console.log('Usuário recebido');
@@ -46,7 +38,7 @@ router.post('/new', async(req,res)=>{
     };
 
     if(erros.length > 0){
-        console.log(erros);
+        res.json({message: erros});
     } else {
         const salt = bcrypt.genSaltSync(10);
         const hashPassword = await bcrypt.hash(req.body.password, salt);
@@ -66,7 +58,7 @@ router.post('/new', async(req,res)=>{
                 console.log('Usuário salvo com sucesso');
             })
             .catch((err)=>{
-                console.log(err);
+                res.json({message: 'Erro ao registrar usuário'});
             });
     };
 });
@@ -91,7 +83,7 @@ router.post('/login', async(req,res)=>{
     };
 
     if(erros.length > 0){
-        res.json({erros: erros});
+        res.json({message: erros});
     } else {
         const verifyPassword = await bcrypt.compare(req.body.password, user.password);
 
@@ -106,7 +98,7 @@ router.post('/login', async(req,res)=>{
 
             console.log('Usuário logado com sucesso');
         } else {
-            console.log('Senha incorreta');
+            res.json({message: 'Senha incorreta'})
         };
     };
 });

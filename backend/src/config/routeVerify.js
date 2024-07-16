@@ -10,6 +10,6 @@ module.exports = routeVerify = (req,res,next)=>{
         console.log('Verificado com sucesso');
         next();
     } catch (error) {
-        res.json(error);
+        res.json({message: 'Você deve estar logado para entrar nesta área'});
     };
 };

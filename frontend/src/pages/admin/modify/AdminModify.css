@@ -1,0 +1,68 @@
+.admin-modify {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    max-width: 700px;
+    width: 100%;
+    min-height: 500px;
+    margin: 5vh auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.114);
+}
+
+.admin-modify h2 {
+    font-size: 30px;
+    padding: 20px;
+}
+
+.admin-modify .project-list {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    max-height: none;
+    padding: 30px;
+}
+
+.project-list .project {
+    padding: 5px;
+    margin: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.472);
+    border-radius: 5px;
+}
+
+.project-list .project h3 {
+    font-size: 24px;
+    padding: 5px;
+}
+
+.project-list .project p {
+    font-size: 16px;
+    margin: 10px;
+}
+
+.project .info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.project .info form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.btn-modify {
+    font-size: 18px;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    margin: 5px;
+}
+
+.button-area {
+    display: flex;
+}

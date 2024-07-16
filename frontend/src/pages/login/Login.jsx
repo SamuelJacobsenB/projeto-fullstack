@@ -2,16 +2,25 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 //----------------------------------------------------------
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 //----------------------------------------------------------
 import { useCookies } from 'react-cookie';
 //----------------------------------------------------------
+import Messages from '../../components/layout/messages/Messages';
 import Button from '../../components/button/Button';
 //----------------------------------------------------------
-import usersFetch from '../../services/config';
+import api from '../../services/api';
 //----------------------------------------------------------
 import './Login.css';
 //----------------------------------------------------------
 const Login = () => {
+
+  const location = useLocation();
+  let message = '';
+
+  if(location.state){
+    message = location.state.message;
+  };
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -28,12 +37,21 @@ const Login = () => {
         password: password
       };
   
-      const response = await usersFetch.post('/login',user);
-      const token = response.data;
+      const response = await api.post('/login',user);
 
-      setCookie('token', token);
+      if(response.data.message){
 
-      navigate('/restrictedroute', {state: {message: 'Usuário logado com sucesso'}});
+        navigate('/login', {state: {message: response.data.message}});
+        
+      } else {
+
+        const token = response.data;
+
+        setCookie('token', token);
+  
+        navigate('/restrictedroute', {state: {message: 'Usuário logado com sucesso'}});
+
+      };
     } catch (error) {
       console.log(error)
     };
@@ -44,6 +62,9 @@ const Login = () => {
   
   return (
     <div className='login'>
+    {message && (
+      <Messages type={'error'}>{message}</Messages>
+    )}
 
     <h2>Entre aqui:</h2>
 
@@ -59,7 +80,7 @@ const Login = () => {
           <input type="password" name="password" id="password" placeholder='Digite sua senha' minLength={'8'} maxLength={'15'} value={password} onChange={(e)=>setPassword(e.target.value)} required/>
       </div>
 
-      <Button type='Submit'>Entrar</Button>
+      <Button type='Submit' className={'success'}>Entrar</Button>
 
     </form>
   </div>
