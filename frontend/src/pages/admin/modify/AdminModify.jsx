@@ -84,7 +84,7 @@ const AdminModify = () => {
   const handleEdit = async(evt)=>{
     evt.preventDefault();
     const id = evt.target.firstChild.value;
-    navigate(`/admin/modify/${id}`, {state: {id: id}});
+    navigate(`/admin/modify/${id}`);
   };
   //----------------------------------------------------------
   

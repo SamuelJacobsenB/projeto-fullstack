@@ -96,7 +96,7 @@ const Restricted = () => {
       <div className='userProject-list'>
         {
           projects.map((project)=>(
-            <div className="project" key={project._id}>  
+            <div className="userProject" key={project._id}>  
               <div className="more-informations">
                   <div className="close-icon icon" onClick={(evt)=>handleViewMore(evt)}>
                     <IoChevronUp/>

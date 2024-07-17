@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 //----------------------------------------------------------
 import { useCookies } from 'react-cookie';
 //----------------------------------------------------------
@@ -18,12 +19,11 @@ const AdminFormModify = () => {
 
     const location = useLocation();
     let message = '';
-    let id = '';
 
     if(location.state){
       message = location.state.message;
-      id = location.state.id;
     };
+
 
     const navigate = useNavigate();
     //----------------------------------------------------------
@@ -32,7 +32,9 @@ const AdminFormModify = () => {
         const [name, setName] = useState(''); 
         const [content, setContent] = useState(''); 
         const [description, setDescription] = useState(''); 
-        const [technologies, setTechnologies] = useState(''); 
+        const [technologies, setTechnologies] = useState('');
+        const { id } = useParams();
+        // const [idState, setIdState] = useState('');
         
         
               const handleEditProject = async(evt)=>{
@@ -42,7 +44,8 @@ const AdminFormModify = () => {
                     name: name,
                     content: content,
                     description: description,
-                    technologies: technologies
+                    technologies: technologies,
+                    id: id
                   };
               
                   const response = await api.post('/admin/edit',project);

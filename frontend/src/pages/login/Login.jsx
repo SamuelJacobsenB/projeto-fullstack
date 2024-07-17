@@ -27,7 +27,7 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const [cookie, setCookie] = useCookies(['token']);
+  const [cookie, setCookie, removeCookie] = useCookies(['token']);
 
   const handleLoginUser = async(evt)=>{
     try {
@@ -59,6 +59,11 @@ const Login = () => {
     setEmail('');
     setPassword('');
   };
+
+  const handleLogout = ()=>{
+    removeCookie('token');
+    navigate('/', {state: {success_message: 'Você saiu da sua conta'}});
+  };
   
   return (
     <div className='login'>
@@ -81,8 +86,14 @@ const Login = () => {
       </div>
 
       <Button type='Submit' className={'success'}>Entrar</Button>
-
     </form>
+    <hr/>
+
+    <h2>Deseja sair da conta:</h2>
+
+    <div className="logout-button" onClick={handleLogout}>
+      <Button type='button' className={'edit'}>Sair da conta</Button>
+    </div>
   </div>
   );
 };

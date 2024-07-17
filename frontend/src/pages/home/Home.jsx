@@ -12,15 +12,20 @@ const Home = () => {
 
   const location = useLocation();
   let message = '';
+  let success_message = ''
 
   if(location.state){
     message = location.state.message;
+    success_message = location.state.success_message;
   };
 
   return (
     <div className="home">
       {message && (
         <Messages type={'error'}>{message}</Messages>
+      )}
+      {success_message && (
+        <Messages type={'success'}>{success_message}</Messages>
       )}
       <h1>Seja bem vindo</h1>
       <div className="button">

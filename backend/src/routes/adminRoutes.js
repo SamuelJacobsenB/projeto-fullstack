@@ -116,7 +116,8 @@ router.post('/edit', async(req, res)=>{
     if(erros.length > 0){
         res.json({message: erros});
     } else {
-        await Project.findOne({name: req.body.name})
+        console.log(req.body.id)
+        await Project.findOne({_id: req.body.id})
             .then(async(project)=>{
                 project.name = req.body.name;
                 project.content = req.body.content;
